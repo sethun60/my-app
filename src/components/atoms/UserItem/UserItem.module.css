@@ -1,0 +1,15 @@
+.userContainer {
+  display: inline-block;
+  width: 300px;
+  margin: 5px;
+  padding: 15px;
+  height: 250px;
+  border: 1px solid;
+}
+
+.userName,
+.user {
+  display: block;
+  text-align: left;
+  font-size: 18px;
+}
