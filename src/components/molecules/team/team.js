@@ -26,7 +26,6 @@ export function Team() {
     async function makeAsyncCall() {
       let teamInfo = await dispatch(makeAPICall(`${URL.teams}/${teamID}`));
       setTeamInfo(teamInfo.payload);
-      setDisplayTeamMembers(teamInfo.payload.teamMemberIds);
     }
 
     teamID && makeAsyncCall();
@@ -46,33 +45,38 @@ export function Team() {
   }, [teamInfo]);
 
   useEffect(() => {
-    console.log("search useEffect called", searchString);
-    // const filteredMembers = fullTeamMemberIds.filter((obj) =>
-    //   Object.values(obj).some((val) =>
-    //     val.toLowerCase().includes(searchString.toLowerCase())
-    //   )
-    // );
+    setDisplayTeamMembers(allUsers);
+  }, [allUsers]);
 
-    // console.log("filteredMembers", filteredMembers);
+  function filterIt(arr, key, searchKey) {
+    return arr.filter(function (obj) {
+      return Object.keys(obj).some(() => {
+        return obj[key].toLowerCase().includes(searchKey.toLowerCase());
+      });
+    });
+  }
 
-    // if (filteredMembers !== undefined && filteredMembers.length != 0) {
-    //   setDisplayTeamMembers(filteredMembers);
-    // } else {
-    //   setDisplayTeamMembers(fullTeamMemberIds);
-    // }
+  useEffect(() => {
+    const filteredMemberIds = filterIt(allUsers, "displayName", searchString);
+
+    if (filteredMemberIds !== undefined && filteredMemberIds.length != 0) {
+      setDisplayTeamMembers(filteredMemberIds);
+    } else {
+      setDisplayTeamMembers(allUsers);
+    }
   }, [searchString]);
 
   const onSearchUpdate = (e) => {
     const searchQuery = e.target.value;
-    searchQuery && setSearchString(searchQuery);
+    setSearchString(searchQuery);
   };
 
   return (
     <div>
       <p>Team page</p>
       <Search onChange={onSearchUpdate} />
-      {allUsers &&
-        allUsers.map((user, index) => {
+      {displayTeamMembers &&
+        displayTeamMembers.map((user, index) => {
           return <UserItem {...user} key={index} />;
         })}
     </div>
