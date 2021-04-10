@@ -1,26 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { makeAPICall } from "./../../../features/dashboard/dashboardSlice";
 import styles from "./Home.module.css";
+import URL from "../../../utils/getUrl";
 
 export function Home() {
+  const dispatch = useDispatch();
   const [teams, setTeams] = useState({
     loading: true,
     data: null,
   });
 
   useEffect(() => {
-    const endPoint =
-      "https://cgjresszgg.execute-api.eu-west-1.amazonaws.com/teams/";
-
-    async function makeAPICall() {
-      let res = await fetch(endPoint);
-      res = await res.json();
-      setTeams({ loading: false, data: res });
+    async function makeAsyncCall() {
+      let res = await dispatch(makeAPICall(URL.teams));
+      setTeams(res.payload);
     }
-
-    makeAPICall();
+    makeAsyncCall();
   }, []);
-
-  console.log("teams", teams);
 
   return (
     <div>
