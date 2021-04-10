@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import TeamItem from "../../atoms/TeamItem/TeamItem";
 import Search from "../../atoms/Search/Search";
-import { makeAPICall } from "./../../../features/dashboard/dashboardSlice";
+import { makeAPICall } from "../../../features/dashboard/dashboardSlice";
 import styles from "./Home.module.css";
 import URL from "../../../utils/getUrl";
 

@@ -7,7 +7,7 @@ export default function TeamItem(props) {
 
   const history = useHistory();
   const clickHandler = (e) => {
-    history.push(`/team/${id}`);
+    history.push(`/team?id=${id}`);
   };
 
   return (
