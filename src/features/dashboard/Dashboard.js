@@ -5,7 +5,6 @@ import styles from "./Dashboard.module.css";
 export function Dashboard() {
   return (
     <div>
-      <p className={styles.p}>dashboard</p>
       <Home />
     </div>
   );

@@ -1,0 +1,15 @@
+.teamContainer {
+  display: inline-block;
+  width: 300px;
+  margin: 5px;
+  padding: 15px;
+  height: 150px;
+  border: 1px solid;
+}
+
+.teamName,
+.teamId {
+  display: block;
+  text-align: left;
+  font-size: 18px;
+}
