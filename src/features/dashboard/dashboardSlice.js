@@ -5,10 +5,6 @@ const initialState = {
     value: [],
     loading: false,
   },
-  users: {
-    value: [],
-    loading: false,
-  },
 };
 
 export const makeAPICall = createAsyncThunk("fetch", async (url) => {

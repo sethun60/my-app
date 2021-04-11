@@ -22,6 +22,10 @@ export function Team() {
   const query = useQuery();
 
   useEffect(() => {
+    setTeamId(query.get("id"));
+  }, []);
+
+  useEffect(() => {
     async function makeAsyncCall() {
       let teamInfo = await fetch(`${endPoints.teams}/${teamID}`);
       teamInfo = await teamInfo.json();
@@ -30,10 +34,6 @@ export function Team() {
 
     teamID && makeAsyncCall();
   }, [teamID]);
-
-  useEffect(() => {
-    setTeamId(query.get("id"));
-  }, [query]);
 
   useEffect(() => {
     async function makeAsyncCall(memberID) {
