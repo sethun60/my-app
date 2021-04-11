@@ -11,7 +11,11 @@ export default function TeamItem(props) {
   };
 
   return (
-    <div className={styles.teamContainer} onClick={(e) => clickHandler(e)}>
+    <div
+      className={styles.teamContainer}
+      data-testid="team-item-container"
+      onClick={(e) => clickHandler(e)}
+    >
       <div className={styles.contents}>
         <p className={styles.teamName}>Name: {name}</p>
         <p className={styles.teamId}>ID: {id}</p>
