@@ -1,8 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  value: 0,
-  loading: false,
+  teams: {
+    value: [],
+    loading: false,
+  },
+  users: {
+    value: [],
+    loading: false,
+  },
 };
 
 export const makeAPICall = createAsyncThunk("fetch", async (url) => {
@@ -18,13 +24,15 @@ export const dashboardSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(makeAPICall.pending, (state) => {
-        state.loading = true;
+        state.teams.loading = true;
       })
       .addCase(makeAPICall.fulfilled, (state, action) => {
-        state.loading = false;
-        state.value = action.payload;
+        state.teams.loading = false;
+        state.teams.value = action.payload;
       });
   },
 });
+
+export const selectTeams = (state) => state.payload.teams;
 
 export default dashboardSlice.reducer;
