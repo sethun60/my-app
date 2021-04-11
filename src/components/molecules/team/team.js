@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Search from "../../atoms/Search/Search";
 import { makeAPICall } from "../../../features/dashboard/dashboardSlice";
 import UserItem from "../../atoms/UserItem/UserItem";
-import { endPoints } from "../../../utils/getEndPoints";
+import { endPoints } from "../../utils/getEndPoints";
+import { searchFilterUtil } from "../../utils/searchFilterUtil";
 
 // A custom hook that builds on useLocation to parse
 // the query string for you.
@@ -50,16 +52,12 @@ export function Team() {
     setDisplayTeamMembers(allUsers);
   }, [allUsers]);
 
-  function filterIt(arr, key, searchKey) {
-    return arr.filter(function (obj) {
-      return Object.keys(obj).some(() => {
-        return obj[key].toLowerCase().includes(searchKey.toLowerCase());
-      });
-    });
-  }
-
   useEffect(() => {
-    const filteredMemberIds = filterIt(allUsers, "displayName", searchString);
+    const filteredMemberIds = searchFilterUtil(
+      allUsers,
+      "displayName",
+      searchString
+    );
 
     if (!!searchString) {
       setDisplayTeamMembers(filteredMemberIds);
