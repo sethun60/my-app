@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import Search from "../../atoms/Search/Search";
-import { makeAPICall } from "../../../features/dashboard/dashboardSlice";
 import UserItem from "../../atoms/UserItem/UserItem";
 import { endPoints } from "../../utils/getEndPoints";
 import { searchFilterUtil } from "../../utils/searchFilterUtil";
@@ -15,7 +13,6 @@ const useQuery = () => {
 };
 
 export function Team() {
-  const dispatch = useDispatch();
   const [teamID, setTeamId] = useState("");
   const [teamInfo, setTeamInfo] = useState({});
   const [searchString, setSearchString] = useState("");
@@ -26,10 +23,9 @@ export function Team() {
 
   useEffect(() => {
     async function makeAsyncCall() {
-      let teamInfo = await dispatch(
-        makeAPICall(`${endPoints.teams}/${teamID}`)
-      );
-      setTeamInfo(teamInfo.payload);
+      let teamInfo = await fetch(`${endPoints.teams}/${teamID}`);
+      teamInfo = await teamInfo.json();
+      setTeamInfo(teamInfo);
     }
 
     teamID && makeAsyncCall();
@@ -41,8 +37,9 @@ export function Team() {
 
   useEffect(() => {
     async function makeAsyncCall(memberID) {
-      let user = await dispatch(makeAPICall(`${endPoints.users}/${memberID}`));
-      setAllUsers((oldArr) => [...oldArr, user.payload]);
+      let user = await fetch(`${endPoints.users}/${memberID}`);
+      user = await user.json();
+      setAllUsers((oldArr) => [...oldArr, user]);
     }
     fullTeamMemberIds.length > 0 &&
       fullTeamMemberIds.forEach((id) => makeAsyncCall(id));
