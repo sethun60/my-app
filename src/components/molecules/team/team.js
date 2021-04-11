@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Search from "../../atoms/Search/Search";
 import UserItem from "../../atoms/UserItem/UserItem";
 import { endPoints } from "../../utils/getEndPoints";
@@ -71,6 +71,9 @@ export function Team() {
   return (
     <div>
       <p>Team page</p>
+      <Link to="/home">
+        <button type="button">Go back to view teams dashboard!</button>
+      </Link>
       <Search onChange={onSearchUpdate} />
       {displayTeamMembers &&
         displayTeamMembers.map((user, index) => {
