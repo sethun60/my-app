@@ -4,18 +4,25 @@ import TeamItem from "../../atoms/TeamItem/TeamItem";
 import Search from "../../atoms/Search/Search";
 import { makeAPICall } from "../../../features/dashboard/dashboardSlice";
 import styles from "./Home.module.css";
-import URL from "../../../utils/getUrl";
+import { endPoints } from "../../../utils/getEndPoints";
 
 export function Home() {
   const dispatch = useDispatch();
   const [teams, setTeams] = useState([]);
-  const [filteredTeams, setFilteredTeams] = useState([]);
   const [displayTeams, setDisplayTeams] = useState([]);
   const [searchString, setSearchString] = useState("");
 
+  function filterIt(arr, key, searchKey) {
+    return arr.filter(function (obj) {
+      return Object.keys(obj).some(() => {
+        return obj[key].toLowerCase().includes(searchKey.toLowerCase());
+      });
+    });
+  }
+
   useEffect(() => {
     async function makeAsyncCall() {
-      let res = await dispatch(makeAPICall(URL.teams));
+      let res = await dispatch(makeAPICall(endPoints.teams));
       setTeams(res.payload);
       setDisplayTeams(res.payload);
     }
@@ -23,23 +30,13 @@ export function Home() {
   }, []);
 
   useEffect(() => {
-    const filteredTeams = teams.filter((obj) =>
-      Object.values(obj).some((val) =>
-        val.toLowerCase().includes(searchString.toLowerCase())
-      )
-    );
-    setFilteredTeams(filteredTeams);
-
-    if (filteredTeams !== undefined || filteredTeams.length != 0) {
-      setDisplayTeams(filteredTeams);
-    } else {
-      setDisplayTeams(teams);
-    }
+    const filteredTeams = filterIt(teams, "name", searchString);
+    searchString ? setDisplayTeams(filteredTeams) : setDisplayTeams(teams);
   }, [searchString]);
 
   const onSearchUpdate = (e) => {
     const searchQuery = e.target.value;
-    searchQuery && setSearchString(searchQuery);
+    setSearchString(searchQuery);
   };
 
   return (

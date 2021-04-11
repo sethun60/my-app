@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Search from "../../atoms/Search/Search";
 import { makeAPICall } from "../../../features/dashboard/dashboardSlice";
 import UserItem from "../../atoms/UserItem/UserItem";
-import URL from "../../../utils/getUrl";
+import { endPoints } from "../../../utils/getEndPoints";
 
 // A custom hook that builds on useLocation to parse
 // the query string for you.
@@ -24,7 +24,9 @@ export function Team() {
 
   useEffect(() => {
     async function makeAsyncCall() {
-      let teamInfo = await dispatch(makeAPICall(`${URL.teams}/${teamID}`));
+      let teamInfo = await dispatch(
+        makeAPICall(`${endPoints.teams}/${teamID}`)
+      );
       setTeamInfo(teamInfo.payload);
     }
 
@@ -37,7 +39,7 @@ export function Team() {
 
   useEffect(() => {
     async function makeAsyncCall(memberID) {
-      let user = await dispatch(makeAPICall(`${URL.users}/${memberID}`));
+      let user = await dispatch(makeAPICall(`${endPoints.users}/${memberID}`));
       setAllUsers((oldArr) => [...oldArr, user.payload]);
     }
     fullTeamMemberIds.length > 0 &&
@@ -59,7 +61,7 @@ export function Team() {
   useEffect(() => {
     const filteredMemberIds = filterIt(allUsers, "displayName", searchString);
 
-    if (filteredMemberIds !== undefined && filteredMemberIds.length != 0) {
+    if (!!searchString) {
       setDisplayTeamMembers(filteredMemberIds);
     } else {
       setDisplayTeamMembers(allUsers);
