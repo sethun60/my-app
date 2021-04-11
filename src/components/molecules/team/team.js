@@ -18,6 +18,7 @@ export function Team() {
   const [searchString, setSearchString] = useState("");
   const { teamMemberIds: fullTeamMemberIds = [] } = teamInfo;
   const [allUsers, setAllUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [displayTeamMembers, setDisplayTeamMembers] = useState([]);
   const query = useQuery();
 
@@ -40,6 +41,7 @@ export function Team() {
       let user = await fetch(`${endPoints.users}/${memberID}`);
       user = await user.json();
       setAllUsers((oldArr) => [...oldArr, user]);
+      setIsLoading(false);
     }
     fullTeamMemberIds.length > 0 &&
       fullTeamMemberIds.forEach((id) => makeAsyncCall(id));
@@ -75,7 +77,9 @@ export function Team() {
         <button type="button">Go back to view teams dashboard!</button>
       </Link>
       <Search onChange={onSearchUpdate} />
-      {displayTeamMembers &&
+      {isLoading && <p>Loading ...</p>}
+      {!isLoading &&
+        displayTeamMembers &&
         displayTeamMembers.map((user, index) => {
           return <UserItem {...user} key={index} />;
         })}
