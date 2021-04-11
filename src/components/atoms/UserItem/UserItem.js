@@ -8,7 +8,7 @@ export default function UserItem(props) {
     <div className={styles.userContainer} data-testid="user-item-container">
       <div className={styles.contents}>
         <p className={styles.user}>{`Name: ${firstName} ${lastName}`}</p>
-        <img src={avatarUrl} alt="avtar" />
+        <img src={avatarUrl} alt="" />
       </div>
     </div>
   );
