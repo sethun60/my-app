@@ -13,6 +13,12 @@ The `features` folder containers all the feature. Please ignore `counter` featur
 
 `dashboard` feature contains the store slice of the actual project.
 
+## Steps to run the project
+
+### `npm install`
+
+### `npm start`
+
 ## Available Scripts
 
 In the project directory, you can run:
